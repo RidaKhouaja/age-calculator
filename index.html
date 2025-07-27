@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة العمر</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        text-align: center;
+        padding: 50px;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    h1 {
+        color: #333;
+    }
+    input {
+        padding: 10px;
+        width: 80%;
+        margin: 15px 0;
+        font-size: 16px;
+    }
+    button {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .result {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>حاسبة العمر</h1>
+        <p>أدخل تاريخ ميلادك:</p>
+        <input type="date" id="birthDate">
+        <br>
+        <button onclick="calculateAge()">احسب العمر</button>
+        <div class="result" id="result"></div>
+    </div>
+
+<script>
+function calculateAge() {
+    const birthDate = document.getElementById("birthDate").value;
+    if (!birthDate) {
+        document.getElementById("result").innerText = "الرجاء إدخال تاريخ الميلاد.";
+        return;
+    }
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let ageYears = today.getFullYear() - birth.getFullYear();
+    let ageMonths = today.getMonth() - birth.getMonth();
+    let ageDays = today.getDate() - birth.getDate();
+
+    if (ageDays < 0) {
+        ageMonths--;
+        ageDays += 30;
+    }
+    if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+    }
+
+    document.getElementById("result").innerText =
+        `عمرك هو: ${ageYears} سنة، ${ageMonths} شهر، ${ageDays} يوم.`;
+}
+</script>
+</body>
+</html>
