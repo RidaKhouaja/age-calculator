@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محول التاريخ | تحويل ميلادي وهجري</title>
+<meta name="description" content="حوّل التاريخ من ميلادي إلى هجري أو العكس بسهولة.">
+<meta name="keywords" content="تحويل التاريخ, هجري, ميلادي, Date Converter">
+<link rel="stylesheet" href="style.css">
+<style>
+input, select {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+.result {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">حاسبة العمر</a></li>
+            <li><a href="BMI.html">حاسبة BMI</a></li>
+            <li><a href="Password.html">مولد كلمات السر</a></li>
+            <li><a href="wordcounter.html">عداد الكلمات</a></li>
+            <li><a href="date-converter.html" class="active">محول التاريخ</a></li>
+            
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>محول التاريخ</h1>
+        <h2>حوّل بين التاريخ الميلادي والهجري</h2>
+        <input type="date" id="gregorianDate">
+        <button onclick="convertDate()">حوّل إلى هجري</button>
+        <div class="result" id="result"></div>
+    </div>
+
+<script>
+// تحويل الميلادي للهجري (تقريبي)
+function convertDate() {
+    const date = new Date(document.getElementById("gregorianDate").value);
+    if (isNaN(date.getTime())) {
+        document.getElementById("result").innerText = "الرجاء إدخال تاريخ صحيح.";
+        return;
+    }
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    // تحويل تقريبي للهجري
+    const jd = Math.floor((1461 * (year + 4800 + Math.floor((month - 14) / 12))) / 4 +
+        (367 * (month - 2 - 12 * Math.floor((month - 14) / 12))) / 12 -
+        (3 * Math.floor((year + 4900 + Math.floor((month - 14) / 12)) / 100)) / 4 +
+        day - 32075);
+    const l = jd - 1948440 + 10632;
+    const n = Math.floor((l - 1) / 10631);
+    let l2 = l - 10631 * n + 354;
+    const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719) +
+        Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
+    l2 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+        Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+    const hijriMonth = Math.floor((24 * l2) / 709);
+    const hijriDay = l2 - Math.floor((709 * hijriMonth) / 24);
+    const hijriYear = 30 * n + j - 30;
+
+    document.getElementById("result").innerText =
+        `التاريخ الهجري: ${hijriDay}-${hijriMonth}-${hijriYear}`;
+}
+</script>
+</body>
+</html>
